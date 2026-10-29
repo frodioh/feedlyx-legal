@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>TikTok connection — Feedlyx</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .code { font: 15px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; word-break: break-all;
+            border: 1px solid var(--rule); border-radius: 8px; padding: 12px; margin: 16px 0; }
+    button { font: inherit; padding: 8px 16px; border-radius: 8px; border: 1px solid var(--accent);
+             background: var(--accent); color: var(--bg); cursor: pointer; }
+    .error { color: #c5221f; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <a class="brand" href="./">Feedlyx</a>
+    <nav><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></nav>
+  </header>
+  <h1>TikTok connection</h1>
+  <div id="result"><p>Reading the answer from TikTok…</p></div>
+</main>
+<script>
+  // TikTok sends the user back here with ?code=…&state=… (or ?error=…). The code is shown for the operator to
+  // finish the connection on the Feedlyx server; nothing is stored or sent anywhere from this page.
+  (function () {
+    var params = new URLSearchParams(location.search);
+    var box = document.getElementById("result");
+    var code = params.get("code");
+    var error = params.get("error");
+    if (code) {
+      box.innerHTML = "<p>TikTok account authorized. Copy this code and give it to the Feedlyx server " +
+        "to finish the connection (it expires in a few minutes):</p>" +
+        "<div class='code' id='code'></div><button id='copy'>Copy code</button>" +
+        "<p id='copied' class='updated'></p>";
+      document.getElementById("code").textContent = code;
+      document.getElementById("copy").onclick = function () {
+        navigator.clipboard.writeText(code).then(function () {
+          document.getElementById("copied").textContent = "Copied.";
+        });
+      };
+    } else if (error) {
+      box.innerHTML = "<p class='error'>TikTok did not authorize the app: <span id='err'></span></p>";
+      document.getElementById("err").textContent = error + " " + (params.get("error_description") || "");
+    } else {
+      box.innerHTML = "<p>This page finishes connecting a TikTok account to Feedlyx. " +
+        "Open it through the “Connect TikTok” link.</p>";
+    }
+    history.replaceState(null, "", location.pathname);  // the code should not stay in the history
+  })();
+</script>
+</body>
+</html>
