@@ -18,6 +18,27 @@
     <li><a href="privacy.html">Privacy Policy</a></li>
     <li><a href="terms.html">Terms of Service</a></li>
   </ul>
+  <h2>Connect a TikTok account</h2>
+  <p>The account owner authorizes Feedlyx to upload its videos to their own TikTok account.</p>
+  <p><a id="connect" class="button" href="#">Connect TikTok</a></p>
+  <script>
+    // TikTok Login Kit (web): the code comes back to callback.html; state guards against a forged answer.
+    (function () {
+      var CLIENT_KEY = "awcjx7ymsdns45ur";
+      var SCOPES = "user.info.basic,video.upload";
+      var REDIRECT = "https://frodioh.github.io/feedlyx-legal/callback.html";
+      document.getElementById("connect").onclick = function (e) {
+        e.preventDefault();
+        var bytes = new Uint8Array(16);
+        crypto.getRandomValues(bytes);
+        var state = Array.from(bytes, function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+        sessionStorage.setItem("tiktok_state", state);
+        location.href = "https://www.tiktok.com/v2/auth/authorize/?" + new URLSearchParams({
+          client_key: CLIENT_KEY, scope: SCOPES, response_type: "code", redirect_uri: REDIRECT, state: state
+        });
+      };
+    })();
+  </script>
   <footer>Contact: <a href="mailto:fedotov.dev@gmail.com">fedotov.dev@gmail.com</a></footer>
 </main>
 </body>

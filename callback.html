@@ -31,7 +31,12 @@
     var box = document.getElementById("result");
     var code = params.get("code");
     var error = params.get("error");
-    if (code) {
+    var expected = sessionStorage.getItem("tiktok_state");
+    sessionStorage.removeItem("tiktok_state");
+    if (code && expected && params.get("state") !== expected) {
+      box.innerHTML = "<p class='error'>This answer was not started from this browser (state mismatch). " +
+        "Start again with the “Connect TikTok” button on the <a href='./'>main page</a>.</p>";
+    } else if (code) {
       box.innerHTML = "<p>TikTok account authorized. Copy this code and give it to the Feedlyx server " +
         "to finish the connection (it expires in a few minutes):</p>" +
         "<div class='code' id='code'></div><button id='copy'>Copy code</button>" +
@@ -47,7 +52,7 @@
       document.getElementById("err").textContent = error + " " + (params.get("error_description") || "");
     } else {
       box.innerHTML = "<p>This page finishes connecting a TikTok account to Feedlyx. " +
-        "Open it through the “Connect TikTok” link.</p>";
+        "Start with the “Connect TikTok” button on the <a href='./'>main page</a>.</p>";
     }
     history.replaceState(null, "", location.pathname);  // the code should not stay in the history
   })();
