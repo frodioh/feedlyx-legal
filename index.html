@@ -10,16 +10,26 @@
 <main>
   <header>
     <a class="brand" href="./">Feedlyx</a>
+    <nav><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></nav>
   </header>
-  <h1>Feedlyx</h1>
-  <p>Feedlyx is a personal automation tool that publishes short videos about new game and movie releases to its
-     operator's own social media accounts.</p>
-  <ul>
-    <li><a href="privacy.html">Privacy Policy</a></li>
-    <li><a href="terms.html">Terms of Service</a></li>
-  </ul>
+
+  <h1>New games and movies, in short videos</h1>
+  <p class="lead">Every day Feedlyx picks the most popular new releases, cuts the best moments of their trailers into a
+     vertical video with a voice-over, and posts it to our own channels: Telegram, YouTube Shorts and TikTok.</p>
+
+  <h2>How it works</h2>
+  <ol class="steps">
+    <li><b>Collect.</b> New releases come from public sources: Steam for games, TMDB for movies.</li>
+    <li><b>Make.</b> The server picks trailer highlights, adds titles, prices and a short voice-over, and renders a
+        1080×1920 video.</li>
+    <li><b>Review.</b> The video arrives in the owner's Telegram bot, where it is checked before it goes out.</li>
+    <li><b>Post.</b> With one tap in the bot the video is sent to the connected TikTok account through the TikTok
+        Content Posting API.</li>
+  </ol>
+
   <h2>Connect a TikTok account</h2>
-  <p>The account owner authorizes Feedlyx to upload its videos to their own TikTok account.</p>
+  <p>The account owner signs in with TikTok and allows Feedlyx to read the account's basic profile (name and avatar,
+     shown in the bot) and to upload videos to it. Access can be revoked at any time in TikTok settings.</p>
   <p><a id="connect" class="button" href="#">Connect TikTok</a></p>
   <script>
     // TikTok Login Kit (web): the code comes back to callback.html; state guards against a forged answer.
@@ -39,7 +49,9 @@
       };
     })();
   </script>
-  <footer>Contact: <a href="mailto:fedotov.dev@gmail.com">fedotov.dev@gmail.com</a></footer>
+
+  <footer>© 2026 Feedlyx · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a> ·
+    <a href="mailto:fedotov.dev@gmail.com">fedotov.dev@gmail.com</a></footer>
 </main>
 </body>
 </html>

@@ -24,8 +24,8 @@
   <div id="result"><p>Reading the answer from TikTok…</p></div>
 </main>
 <script>
-  // TikTok sends the user back here with ?code=…&state=… (or ?error=…). The code is shown for the operator to
-  // finish the connection on the Feedlyx server; nothing is stored or sent anywhere from this page.
+  // TikTok sends the user back here with ?code=…&state=… (or ?error=…). The owner pastes the code into the
+  // Feedlyx Telegram bot, and the server exchanges it for tokens; nothing is stored or sent from this page.
   (function () {
     var params = new URLSearchParams(location.search);
     var box = document.getElementById("result");
@@ -37,14 +37,17 @@
       box.innerHTML = "<p class='error'>This answer was not started from this browser (state mismatch). " +
         "Start again with the “Connect TikTok” button on the <a href='./'>main page</a>.</p>";
     } else if (code) {
-      box.innerHTML = "<p>TikTok account authorized. Copy this code and give it to the Feedlyx server " +
-        "to finish the connection (it expires in a few minutes):</p>" +
-        "<div class='code' id='code'></div><button id='copy'>Copy code</button>" +
-        "<p id='copied' class='updated'></p>";
+      box.innerHTML = "<p>✅ TikTok account authorized. To finish, send this code to the Feedlyx bot " +
+        "(it expires in a few minutes):</p>" +
+        "<ol><li>Tap <b>Copy code and open the bot</b>.</li><li>Paste the code in the chat with the bot.</li></ol>" +
+        "<div class='code' id='code'></div>" +
+        "<div class='actions'><button id='copy'>Copy code and open the bot</button>" +
+        "<a href='https://t.me/feedlyx_bot'>@feedlyx_bot</a></div><p id='copied' class='updated'></p>";
       document.getElementById("code").textContent = code;
       document.getElementById("copy").onclick = function () {
         navigator.clipboard.writeText(code).then(function () {
-          document.getElementById("copied").textContent = "Copied.";
+          document.getElementById("copied").textContent = "Code copied — paste it in the chat with the bot.";
+          location.href = "https://t.me/feedlyx_bot";
         });
       };
     } else if (error) {
