@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>VK connection — Feedlyx</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .code { font: 15px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; word-break: break-all;
+            border: 1px solid var(--rule); border-radius: 8px; padding: 12px; margin: 16px 0; }
+    button { font: inherit; padding: 8px 16px; border-radius: 8px; border: 1px solid var(--accent);
+             background: var(--accent); color: var(--bg); cursor: pointer; }
+    .error { color: #c5221f; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <a class="brand" href="./">Feedlyx</a>
+    <nav><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></nav>
+  </header>
+  <h1>VK connection</h1>
+  <div id="result"><p>Reading the answer from VK ID…</p></div>
+</main>
+<script>
+  // VK ID sends the user back here with ?code=…&device_id=…&state=… (or ?error=…). The page packs the code with the
+  // PKCE verifier kept in this browser session into one "vk1." string; the owner pastes it into the Feedlyx Telegram
+  // bot, and the server exchanges it for tokens. Nothing is stored or sent from this page.
+  (function () {
+    var params = new URLSearchParams(location.search);
+    var box = document.getElementById("result");
+    var code = params.get("code");
+    var error = params.get("error");
+    var expected = sessionStorage.getItem("vk_state");
+    var verifier = sessionStorage.getItem("vk_verifier");
+    sessionStorage.removeItem("vk_state");
+    sessionStorage.removeItem("vk_verifier");
+    if (code && (!expected || !verifier || params.get("state") !== expected)) {
+      box.innerHTML = "<p class='error'>This answer was not started from this browser. " +
+        "Start again with the “Connect VK” button on the <a href='./'>main page</a>.</p>";
+    } else if (code) {
+      var packed = "vk1." + btoa(JSON.stringify({
+        code: code, device_id: params.get("device_id") || "", code_verifier: verifier, state: expected
+      })).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+      box.innerHTML = "<p>✅ VK account authorized. To finish, send this code to the Feedlyx bot " +
+        "(it expires in a few minutes):</p>" +
+        "<ol><li>Tap <b>Copy code and open the bot</b>.</li><li>Paste the code in the chat with the bot.</li></ol>" +
+        "<div class='code' id='code'></div>" +
+        "<div class='actions'><button id='copy'>Copy code and open the bot</button>" +
+        "<a href='https://t.me/feedlyx_bot'>@feedlyx_bot</a></div><p id='copied' class='updated'></p>";
+      document.getElementById("code").textContent = packed;
+      document.getElementById("copy").onclick = function () {
+        navigator.clipboard.writeText(packed).then(function () {
+          document.getElementById("copied").textContent = "Code copied — paste it in the chat with the bot.";
+          location.href = "https://t.me/feedlyx_bot";
+        });
+      };
+    } else if (error) {
+      box.innerHTML = "<p class='error'>VK did not authorize the app: <span id='err'></span></p>";
+      document.getElementById("err").textContent = error + " " + (params.get("error_description") || "");
+    } else {
+      box.innerHTML = "<p>This page finishes connecting VK to Feedlyx. " +
+        "Start with the “Connect VK” button on the <a href='./'>main page</a>.</p>";
+    }
+    history.replaceState(null, "", location.pathname);  // the code should not stay in the history
+  })();
+</script>
+</body>
+</html>

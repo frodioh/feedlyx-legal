@@ -31,6 +31,11 @@
   <p>The account owner signs in with TikTok and allows Feedlyx to read the account's basic profile (name and avatar,
      shown in the bot) and to upload videos to it. Access can be revoked at any time in TikTok settings.</p>
   <p><a id="connect" class="button" href="#">Connect TikTok</a></p>
+
+  <h2>Connect VK</h2>
+  <p>The owner of the Feedlyx VK communities signs in with VK ID and allows Feedlyx to upload the daily videos to the
+     communities they manage. Access can be revoked at any time in VK ID settings.</p>
+  <p><a id="connect-vk" class="button" href="#">Connect VK</a></p>
   <script>
     // TikTok Login Kit (web): the code comes back to callback.html; state guards against a forged answer.
     (function () {
@@ -45,6 +50,34 @@
         sessionStorage.setItem("tiktok_state", state);
         location.href = "https://www.tiktok.com/v2/auth/authorize/?" + new URLSearchParams({
           client_key: CLIENT_KEY, scope: SCOPES, response_type: "code", redirect_uri: REDIRECT, state: state
+        });
+      };
+    })();
+
+    // VK ID (OAuth 2.1 with PKCE): vk-callback.html gets the code; the verifier stays in this browser session.
+    (function () {
+      var APP_ID = "54866739";
+      var SCOPES = "video wall groups";
+      var REDIRECT = "https://frodioh.github.io/feedlyx-legal/vk-callback.html";
+      function random(n) {
+        var bytes = new Uint8Array(n);
+        crypto.getRandomValues(bytes);
+        return Array.from(bytes, function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+      }
+      function base64url(buf) {
+        return btoa(String.fromCharCode.apply(null, new Uint8Array(buf)))
+          .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+      }
+      document.getElementById("connect-vk").onclick = function (e) {
+        e.preventDefault();
+        var verifier = random(32), state = random(16);
+        sessionStorage.setItem("vk_verifier", verifier);
+        sessionStorage.setItem("vk_state", state);
+        crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier)).then(function (hash) {
+          location.href = "https://id.vk.com/authorize?" + new URLSearchParams({
+            response_type: "code", client_id: APP_ID, scope: SCOPES, redirect_uri: REDIRECT, state: state,
+            code_challenge: base64url(hash), code_challenge_method: "S256"
+          });
         });
       };
     })();
