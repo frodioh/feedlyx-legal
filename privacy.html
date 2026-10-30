@@ -13,11 +13,11 @@
     <nav><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></nav>
   </header>
   <h1>Privacy Policy</h1>
-  <p class="updated">Last updated: October 29, 2026</p>
+  <p class="updated">Last updated: October 30, 2026</p>
 
   <p>Feedlyx ("we", "the app") is a personal automation tool operated by the Feedlyx team. It publishes short videos
-     about new game and movie releases to the operator's own social media accounts, including TikTok. This policy
-     explains what data the app handles and how.</p>
+     about new game and movie releases to the operator's own social media accounts, including YouTube and TikTok.
+     This policy explains what data the app handles and how.</p>
 
   <h2>1. Who uses the app</h2>
   <p>Feedlyx is not a public service. It is used only by its operator to post to the operator's own accounts.
@@ -32,36 +32,61 @@
   </ul>
   <p>The app does not access followers, messages, comments, viewing history or any data of other TikTok users.</p>
 
-  <h2>3. How we use the data</h2>
-  <p>The tokens are used only to upload videos created by Feedlyx to the connected account and to check the upload
-     status. Account information is used only to show which account is connected.</p>
+  <h2>3. Data we access from Google (YouTube)</h2>
+  <p>Feedlyx uses YouTube API Services. When the operator authorizes a YouTube channel with Google, the app requests
+     two permissions and receives:</p>
+  <ul>
+    <li><code>youtube.upload</code>: the right to upload videos created by Feedlyx to that channel, with their
+        title, description, tags and privacy status;</li>
+    <li><code>youtube.readonly</code>: the channel name and ID, used only to show which channel is connected;</li>
+    <li>an OAuth refresh token that lets the app make these requests without signing in again.</li>
+  </ul>
+  <p>The app does not read or change other videos, comments, subscriptions, playlists, watch history or any data of
+     other YouTube users, and it does not delete anything from the channel.</p>
+  <p>Feedlyx's use and transfer of information received from Google APIs adheres to the
+     <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data
+     Policy</a>, including the Limited Use requirements. Data from Google is used only to provide the upload
+     feature described here; it is not transferred to others, used for advertising, sold, or read by humans except
+     when needed for security or to comply with the law.</p>
+  <p>By connecting a YouTube channel you also agree to the
+     <a href="https://www.youtube.com/t/terms">YouTube Terms of Service</a>. Google's handling of your data is
+     described in the <a href="https://policies.google.com/privacy">Google Privacy Policy</a>.</p>
 
-  <h2>4. Content we publish</h2>
+  <h2>4. How we use the data</h2>
+  <p>Tokens are used only to upload videos created by Feedlyx to the connected accounts and to check the upload
+     status. Account and channel information is used only to show which account is connected.</p>
+
+  <h2>5. Content we publish</h2>
   <p>Videos are generated automatically from publicly available information about game and movie releases: titles,
      descriptions, official trailers and store images. They contain no personal data of any person.</p>
 
-  <h2>5. Storage and security</h2>
-  <p>Tokens are stored encrypted on a private server controlled by the operator and are never logged or shown in
-     plain text. Access to the server is restricted to the operator.</p>
+  <h2>6. Storage and security</h2>
+  <p>Tokens are stored on a private server controlled by the operator, in files and secrets readable only by the
+     app, and are never logged or shown in plain text. Access to the server is restricted to the operator.</p>
 
-  <h2>6. Sharing</h2>
-  <p>We do not sell, rent or share TikTok data with third parties. The data is not used for advertising or
+  <h2>7. Sharing</h2>
+  <p>We do not sell, rent or share TikTok or Google data with third parties. The data is not used for advertising or
      profiling.</p>
 
-  <h2>7. Retention and deletion</h2>
-  <p>Tokens are kept while the account stays connected. To stop all access, revoke Feedlyx in TikTok: Settings and
-     privacy → Security → Apps and services. Or email
+  <h2>8. Retention and deletion</h2>
+  <p>Tokens are kept while an account stays connected. To stop all access at any time:</p>
+  <ul>
+    <li>YouTube: remove Feedlyx at <a href="https://myaccount.google.com/permissions">Google Account → Third-party
+        apps and services</a>;</li>
+    <li>TikTok: revoke Feedlyx in TikTok: Settings and privacy → Security → Apps and services.</li>
+  </ul>
+  <p>Once access is revoked, the stored tokens stop working, and we delete them. You can also email
      <a href="mailto:fedotov.dev@gmail.com">fedotov.dev@gmail.com</a>, and we will delete all stored data within
      30 days.</p>
 
-  <h2>8. Children</h2>
+  <h2>9. Children</h2>
   <p>Feedlyx is not intended for anyone under 18, and we do not knowingly process data of children.</p>
 
-  <h2>9. Changes</h2>
+  <h2>10. Changes</h2>
   <p>We may update this policy. The current version is always published at this address with the date of the last
      update.</p>
 
-  <h2>10. Contact</h2>
+  <h2>11. Contact</h2>
   <p>Questions about this policy: <a href="mailto:fedotov.dev@gmail.com">fedotov.dev@gmail.com</a>.</p>
 
   <footer>© 2026 Feedlyx</footer>
